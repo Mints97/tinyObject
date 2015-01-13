@@ -283,3 +283,5 @@ _(object)_testNonV(10);
 ```
 
 You can see a short example program in main.c.
+
+Don't forget to be careful with object casting, as it technically violates the strict aliasing rule, and optimising compilers could have the option to treat an object and itself cast to a different type as two different objects.
