@@ -77,7 +77,7 @@ In all above examples, if you are using a class type anywhere in the declaration
 `struct <type>_s`
 where <type> is the class name. For example, for Object, it will be
 `struct Object_s`
-Important: the class types are actually pointers to these structs! However, each class also has a value type, named val_<type>
+Important: the class types are actually pointers to these structs! However, each class also has a value type, named `val_<type>`
 Alternatively, you can typedef the struct before the class declaration. In C, multiple typedefs for the same type are not a problem.
 If you are using a class type in a non-virtual method declaration, you can also just move it to after the creation statements for the needed classes, although that could result in messy code. However, this has its pros, as it enables you to provide the method definition right there, too.
 
