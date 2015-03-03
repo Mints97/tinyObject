@@ -25,14 +25,20 @@ struct _ASSERTION_TEST_STRUCT2 { char a; int b; long c[100000]; long d[100000]; 
 STATIC_ASSERT(offsetof(struct _ASSERTION_TEST_STRUCT, b) == offsetof(struct _ASSERTION_TEST_STRUCT2, b),
 				This_compiler_follows_an_irregular_logic_in_struct_member_alignment_and_cannot_be_used_to_compile_tinyObject);
 
-#define MAKE_THIS(type) struct type##_s *thisObject
+#define MAKE_THIS(type) type thisObject
 #define ALLOC_THIS(type) struct type##_s *thisObject = (struct type##_s*)malloc(sizeof(struct type##_s))
 #define this thisObject
 
-#define MAKE_CLASS(type) \
+#define MAKE_TYPEDEF(type) \
 	typedef struct type##_s val_##type, *type; \
+
+#define MAKE_CLASS(type) \
 	struct type##_s { CLASS_##type }; \
 	void delete##type (struct type##_s *thisObject)
+
+#define MAKE_CLASS_TYPEDEFED(type) \
+	MAKE_TYPEDEF(type); \
+	MAKE_CLASS(type);
 
 #define MAKE_DEFAULT_CONSTRUCTOR_PROTOTYPES(type) \
 	struct type##_s *new##type(); \
@@ -62,6 +68,11 @@ STATIC_ASSERT(offsetof(struct _ASSERTION_TEST_STRUCT, b) == offsetof(struct _ASS
 #define MAKE_METHOD_ALIAS(type, method) , type##_##method )
 #define MAKE_VIRTUAL_METHOD_ALIAS(type, method) ->method )
 
+
+
+MAKE_TYPEDEF(Class);
+MAKE_TYPEDEF(Object);
+MAKE_TYPEDEF(DerivedClass);
 
 
 #define CLASS_Class \

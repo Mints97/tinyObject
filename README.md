@@ -17,13 +17,26 @@ tinyObject emulates inheritance by using a couple of macros to copy the members 
 ##Syntaxis
 
 In tinyObject, a class consist of
+- the class typedef;
 - a declaration listing its public members;
 - public method declarations;
 - a class creation statement;
 - method definitions;
 - the class constructors.
 
-The first three are normally contained in a .h file and the last two in a .c file (a separate translation unit from the main program file). It is not necessary to use a .c file, but, without a separate .c file, you won't be able to encapsulate private methods or functions that are actually virtual methods.
+The first four are normally contained in a .h file and the last two in a .c file (a separate translation unit from the main program file). It is not necessary to use a .c file, but, without a separate .c file, you won't be able to encapsulate private methods or functions that are actually virtual methods.
+
+###Creating the class typedef
+
+To create a `typedef` for a class, just use the 
+`MAKE_TYPEDEF(type)`
+macro.
+
+Each class has the following struct name:
+`struct <type>_s`
+where <type> is the class name. For example, for Object, it will be
+`struct Object_s`
+Important: the class types are actually pointers to these structs! However, each class also has a value type, named val_<type>.
 
 ###Declaring a class
 
@@ -72,14 +85,6 @@ To finish up, let's add a non-virtual public method to the class. It is not real
 ```
 
 The syntaxis is the same as with virtual methods. This creates a function prototype with a similarly mangled name.
-
-In all above examples, if you are using a class type anywhere in the declarations, you should use its struct name as an incomplete type, as class types are not declared before a class creation statement. Each class has the following struct name:
-`struct <type>_s`
-where <type> is the class name. For example, for Object, it will be
-`struct Object_s`
-Important: the class types are actually pointers to these structs! However, each class also has a value type, named val_<type>
-Alternatively, you can typedef the struct before the class declaration. In C, multiple typedefs for the same type are not a problem.
-If you are using a class type in a non-virtual method declaration, you can also just move it to after the creation statements for the needed classes, although that could result in messy code. However, this has its pros, as it enables you to provide the method definition right there, too.
 
 As you can see, we have virtual methods that have the following calling syntax:
 `object->method(object, parameters)`
