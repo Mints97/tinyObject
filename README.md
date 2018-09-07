@@ -1,5 +1,4 @@
-tinyObject
-=======
+# tinyObject
 
 An easy-to-use object-oriented system for the C programming language.
 
@@ -11,10 +10,10 @@ tinyObject sports a simplistic object-oriented model with inheritance and (expli
 
 tinyObject is currently used in [tinyGUI](https://github.com/Mints97/tinyGUI), a (tiny) Windows GUI library for C. Originally, tinyObject was part of tinyGUI.
 
-###How does it work?
+### How does it work?
 tinyObject emulates inheritance by using a couple of macros to copy the members of the base type to the beginning of the derived type. Please note that, technically, this is undefined behaviour according to the C standard. However, normally, compilers that do not reorder struct members (which is mandated by the standard) align the copied members in the derived type struct the same way as they were aligned in the base type (if they are not packed differently). In fact, if a compiler was not to support this, it would have lots, lots and lots of trouble adhering to the union-of-structs-that-share-a-common-initial-sequence rule (C11 standard, 6.5.2.3 - 6). If you know of such an implementation of C where this doesn't hold, please notify me.
 
-##Syntaxis
+## Syntax
 
 In tinyObject, a class consist of
 - the class typedef;
@@ -26,7 +25,7 @@ In tinyObject, a class consist of
 
 The first four are normally contained in a .h file and the last two in a .c file (a separate translation unit from the main program file). It is not necessary to use a .c file, but, without a separate .c file, you won't be able to encapsulate private methods or functions that are actually virtual methods.
 
-###Creating the class typedef
+### Creating the class typedef
 
 To create a `typedef` for a class, just use the 
 `MAKE_TYPEDEF(type)`
@@ -38,7 +37,7 @@ where <type> is the class name. For example, for Object, it will be
 `struct Object_s`
 Important: the class types are actually pointers to these structs! However, each class also has a value type, named val_<type>.
 
-###Declaring a class
+### Declaring a class
 
 This should be done in a header (.h) file shared by the main program and the .c file, right after all the tinyObject utility macro definitions (you can place them in a separate header file for convenience).
 
@@ -115,7 +114,7 @@ Here's how it works: the macro SELFREF_INIT creates a variable (currentThis) whi
 
 The main con of this method is that it worsens the system's type un-safety: using this mechanism, you can't see the types of parameters that the method expects. This can be remedied by properly documenting your methods.
 
-###Inheritance
+### Inheritance
 To inherit from a class, simply place its declaration macro at the beginning of the derived class declaration like this:
 ```C
 /* Class DerivedClass, inherited from Object */
@@ -125,7 +124,7 @@ To inherit from a class, simply place its declaration macro at the beginning of 
 This can be used for a sort-of multiple inheritance, where a class can inherit members (fields and virtual methods) from several base classes, but can be properly type-casted to only one of them - the first one in the list.
 
 
-###Creating a class
+### Creating a class
 
 After declaring a class, we'd want to create it. The syntax is as follows:
 
@@ -156,7 +155,7 @@ void delete<type>(<type> thisObject);
 
 If you're defining your methods and constructors in a separate .c file, now's the time to define the constructor prototypes.
 
-###Creating constructors
+### Creating constructors
 
 Each tinyObject class can have two constructors.
 
@@ -221,7 +220,7 @@ Object newObject(){
 
 An initializer follows the same semantics, but, of course, it doesn't need to allocate the object, and it doesn't need to return anything since it is a void function.
 
-###Creating methods
+### Creating methods
 To automatically create methods with mangled names, you can use the same METHOD macro described above:
 
 ```C
@@ -251,7 +250,7 @@ You might want to do the same for private methods. To tell them apart from virtu
 Note that you should create virtual methods or their prototypes strictly before default initialization of their object(s) occurs (it should most often happen in constructors).
 
 
-###Creating destructors
+### Creating destructors
 This is easy. The destructor signature has already been given:
 ```C
 void delete<type>(<type> thisObject);
